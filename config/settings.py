@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'django_filters',
     
     #modules
-    # 'apps.products',
     'apps.rudhra',
 ]
 
