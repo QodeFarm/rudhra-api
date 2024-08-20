@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.products.models import Categories,Products
+from apps.rudhra.models import Categories,Products
 
 
 class ModCategoriesSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
 class ModProductsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
-        fields = ['product_name','price','description']
+        fields = ['product_name','price']
 
 class ProductsSerializer(serializers.ModelSerializer):
     category = ModCategoriesSerializer(source='category_id', read_only=True)

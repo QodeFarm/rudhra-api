@@ -1,12 +1,9 @@
 from django.shortcuts import render
-from rest_framework import viewsets
-from config.utils_methods import list_all_objects,create_instance,update_instance
-from apps.products.serializers import CategoriesSerializer, ProductsSerializer 
-from apps.products.models import Categories,Products
-
-# In your Django app's views.py file
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from config.utils_methods import list_all_objects,create_instance,update_instance
+from apps.rudhra.serializers import CategoriesSerializer, ProductsSerializer 
+from apps.rudhra.models import Categories,Products
 from django.core.mail import send_mail
 import json
 from config.settings import EMAIL_HOST_USER

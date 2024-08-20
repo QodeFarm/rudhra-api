@@ -15,7 +15,6 @@ class Categories(models.Model):
     def __str__(self):
         return self.category_name
 		
-		
 class Products(models.Model):
     product_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product_name = models.CharField(max_length=100)

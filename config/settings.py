@@ -65,7 +65,8 @@ INSTALLED_APPS = [
     'django_filters',
     
     #modules
-    'apps.products',
+    # 'apps.products',
+    'apps.rudhra',
 ]
 
 MIDDLEWARE = [

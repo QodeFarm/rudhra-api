@@ -2,8 +2,6 @@ from django.urls import path, include
 from .views import *
 from rest_framework.routers import DefaultRouter
 
-from .views import SendmailViewSet
-
 #add your urls
 
 router = DefaultRouter()
