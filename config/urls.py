@@ -27,9 +27,9 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="NTHRAS",
+        title="RUDHRA",
         default_version='v1',
-        #description="API for NTHRAS",
+        #description="API for RUDHRA",
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
