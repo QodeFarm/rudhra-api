@@ -1,17 +1,23 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from apps.rudhra.filters import CategoriesFilter, ProductsFilter
 from config.utils_methods import list_all_objects,create_instance,update_instance
 from apps.rudhra.serializers import CategoriesSerializer, ProductsSerializer 
 from apps.rudhra.models import Categories,Products
 from django.core.mail import send_mail
 import json
 from config.settings import EMAIL_HOST_USER
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 
 # Create your views here.
 class CategoriesViewSet(viewsets.ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategoriesSerializer
+    filter_backends = [DjangoFilterBackend,OrderingFilter]
+    filterset_class = CategoriesFilter
+    ordering_fields = []
 
     def list(self, request, *args, **kwargs):
         return list_all_objects(self, request, *args, **kwargs)
@@ -25,6 +31,9 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+    filter_backends = [DjangoFilterBackend,OrderingFilter]
+    filterset_class = ProductsFilter
+    ordering_fields = []
 
     def list(self, request, *args, **kwargs):
         return list_all_objects(self, request, *args, **kwargs)
