@@ -54,17 +54,17 @@ class SendmailViewSet(viewsets.ViewSet):
 
             # Extract data from the request
             categories = data.get('data', [])
-            provided_total_amount = data.get('total_amount', None)
+            # provided_total_amount = data.get('total_amount', None)
 
-            # Compute total amount if not provided
-            computed_total_amount = 0.00
-            for category in categories[1:]:  # Start from the second item to skip the email item
-                for product in category.get('products', []):
-                    price = product.get('price')
-                    quantity = product.get('quantity')
-                    computed_total_amount += price * quantity
+            # # Compute total amount if not provided
+            # computed_total_amount = 0.00
+            # for category in categories[1:]:  # Start from the second item to skip the email item
+            #     for product in category.get('products', []):
+            #         price = product.get('price')
+            #         quantity = product.get('quantity')
+            #         computed_total_amount += price * quantity
 
-            total_amount = provided_total_amount if provided_total_amount is not None else computed_total_amount
+            # total_amount = provided_total_amount if provided_total_amount is not None else computed_total_amount
 
             # Prepare email content
             email_subject = 'Order Summary'
@@ -75,12 +75,10 @@ class SendmailViewSet(viewsets.ViewSet):
                 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>SI.NO</th>
                             <th>Category</th>
                             <th>Product</th>
-                            <th>Price</th>
                             <th>Quantity</th>
-                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,27 +89,21 @@ class SendmailViewSet(viewsets.ViewSet):
                 category_name = category.get('category_name')
                 for product in category.get('products', []):
                     product_name = product.get('product_name')
-                    price = product.get('price')
+                    # price = product.get('price')
                     quantity = product.get('quantity')
-                    total = price * quantity
+                    # total = price * quantity
                     email_body += f"""
                         <tr>
                             <td>{row_number}</td>
                             <td>{category_name}</td>
                             <td>{product_name}</td>
-                            <td>${price:.2f}</td>
                             <td>{quantity}</td>
-                            <td>${total:.2f}</td>
                         </tr>
                     """
                     row_number += 1
 
             # Add a final row for the total amount
             email_body += f"""
-                        <tr>
-                            <td colspan="5" style="text-align:right;"><strong>Total Amount:</strong></td>
-                            <td>${total_amount:.2f}</td>
-                        </tr>
                     </tbody>
                 </table>
             </body>
@@ -138,4 +130,3 @@ class SendmailViewSet(viewsets.ViewSet):
             return Response({'status': 'error', 'message': 'Invalid JSON format.'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
