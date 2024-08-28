@@ -65,7 +65,7 @@ class SendmailViewSet(viewsets.ViewSet):
                 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th>SI.NO</th>
+                            <th>S.NO</th>
                             <th>Category</th>
                             <th>Product</th>
                             <th>Quantity</th>
