@@ -50,21 +50,11 @@ class SendmailViewSet(viewsets.ViewSet):
     def create(self, request, *args, **kwargs):
         try:
             # Load JSON data from the request body
-            data = request.data  # Use request.data instead of request.body
+            data = request.data
 
-            # Extract data from the request
+            # Extract email and categories from the request
+            email_str = data.get('email')
             categories = data.get('data', [])
-            # provided_total_amount = data.get('total_amount', None)
-
-            # # Compute total amount if not provided
-            # computed_total_amount = 0.00
-            # for category in categories[1:]:  # Start from the second item to skip the email item
-            #     for product in category.get('products', []):
-            #         price = product.get('price')
-            #         quantity = product.get('quantity')
-            #         computed_total_amount += price * quantity
-
-            # total_amount = provided_total_amount if provided_total_amount is not None else computed_total_amount
 
             # Prepare email content
             email_subject = 'Order Summary'
@@ -75,7 +65,7 @@ class SendmailViewSet(viewsets.ViewSet):
                 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
                     <thead>
                         <tr>
-                            <th>SI.NO</th>
+                            <th>S.No.</th>
                             <th>Category</th>
                             <th>Product</th>
                             <th>Quantity</th>
@@ -85,13 +75,11 @@ class SendmailViewSet(viewsets.ViewSet):
             """
 
             row_number = 1
-            for category in categories[1:]:  # Start from the second item to skip the email item
+            for category in categories:
                 category_name = category.get('category_name')
                 for product in category.get('products', []):
                     product_name = product.get('product_name')
-                    # price = product.get('price')
                     quantity = product.get('quantity')
-                    # total = price * quantity
                     email_body += f"""
                         <tr>
                             <td>{row_number}</td>
@@ -102,7 +90,6 @@ class SendmailViewSet(viewsets.ViewSet):
                     """
                     row_number += 1
 
-            # Add a final row for the total amount
             email_body += f"""
                     </tbody>
                 </table>
@@ -110,8 +97,7 @@ class SendmailViewSet(viewsets.ViewSet):
             </html>
             """
 
-            # Extract and split emails
-            email_str = categories[0].get('email')
+            # Split emails into a list
             recipient_list = [email.strip() for email in email_str.split(',')]
 
             # Sending email
