@@ -44,24 +44,36 @@ class ProductsViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         return update_instance(self, request, *args, **kwargs)
-    
-
+ 
+ 
 class SendmailViewSet(viewsets.ViewSet):
     def create(self, request, *args, **kwargs):
         try:
             # Load JSON data from the request body
             data = request.data
 
-            # Extract email and categories from the request
+            # Extract email, categories, and user data from the request
             email_str = data.get('email')
             categories = data.get('data', [])
+            user_data = data.get('userData', {})
 
             # Prepare email content
-            email_subject = 'Order Summary'
+            email_subject = 'Sale Order'
             email_body = f"""
             <html>
             <body>
-                <h2>Order Summary</h2>
+                <h2>Sale Order</h2>
+                
+                <h3>User Information</h3>
+                <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+                    <tr><td><strong>Name:</strong></td><td>{user_data.get('name', '')}</td></tr>
+                    <tr><td><strong>Phone:</strong></td><td>{user_data.get('phone', '')}</td></tr>
+                    <tr><td><strong>Email:</strong></td><td>{user_data.get('email', '')}</td></tr>
+                    <tr><td><strong>Address:</strong></td><td>{user_data.get('address', '')}</td></tr>
+                    <tr><td><strong>Comments:</strong></td><td>{user_data.get('comments', '')}</td></tr>
+                </table>
+
+                <h3>Order Details</h3>
                 <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
                     <thead>
                         <tr>
